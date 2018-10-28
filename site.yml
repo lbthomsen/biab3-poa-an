@@ -1,0 +1,48 @@
+# Ansible Playbook for Subutai Blockchain III blueprint
+#
+# Implemented by Lars Boegild Thomsen <lbthomsen@gmail.com>
+#
+---
+
+- hosts: all
+  remote_user: root
+
+  tasks:
+
+    - name: Disable dpkg fsync
+      shell: echo force-unsafe-io > /etc/dpkg/dpkg.cfg.d/unsafe-io
+      args: 
+        creates: /etc/dpkg/dpkg.cfg.d/unsafe-io
+
+    - name: Create biab user
+      user:
+        name: biab
+        group: users
+        shell: /bin/bash
+
+    - name: Install dirmngr
+      apt:
+        name: dirmngr
+        state: present
+
+    - name: Install apt-transport-https
+      apt:
+        name: apt-transport-https
+        state: present
+
+    - name: Upgrade debian
+      apt:
+        update_cache: true
+        upgrade: true
+
+    - name: Install required debs
+      apt:
+        name: "{{ item }}"
+        state: present
+      with_items: 
+        - sudo
+        - net-tools
+        - aptitude
+        - screen
+
+# vim: ts=4 et nowrap autoindent
