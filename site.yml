@@ -4,7 +4,7 @@
 #
 ---
 
-- hosts: all
+- hosts: an
   remote_user: root
 
   tasks:
@@ -105,19 +105,13 @@
         body_format: json
       register: fetch_enode
 
-    - name: Show 
+    - name: Update spec
+      template: 
+        src: files/spec.json
+        dest: /etc/parity/spec.json
+
+    - name: Display all variables/facts known for a host
       debug:
         var: hostvars[inventory_hostname]
-        verbosity: 4
-
-
-#    - name: Show vars
-#      vars: 
-#        msg: "{{ vars | to_nice_json }}"
-
-#    - name: Create Account
-#      uri:
-#        url: http://localhost:8545
-
 
 # vim: ts=4 et nowrap autoindent
