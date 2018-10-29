@@ -44,32 +44,20 @@
         "ansible-playbook": "site.yml",
         "extra-vars": [
             {
-                "key": "domain",
-                "value": "${domain}"
-            },
-            {
-                "key": "json_domain",
-                "value": "${jsonDomain}"
-            },
-            {
-                "key": "rpc_domain",
-                "value": "${rpcDomain}"
-            },
-            {
-                "key": "disc_domain",
-                "value": "${discDomain}"
-            },
-            {
                 "key": "ethereum_network",
                 "value": "${ethereumNetwork}"
             }, 
             {
-                "key": "ethereum_difficulty", 
-                "value": "${ethereumDifficulty}"
-            },
+                "key": "environment_name", 
+                "value": "${environmentName}"
+            }, 
             {
-                "key": "coinbase", 
-                "value": "${coinbase}"
+                "key": "account_phrase", 
+                "value": "${accountPhrase}"
+            }, 
+            {
+                "key": "account_pwd", 
+                "value": "${accountPwd}"
             }
         ],
         "groups": [

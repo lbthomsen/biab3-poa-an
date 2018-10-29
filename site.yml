@@ -14,12 +14,6 @@
       args: 
         creates: /etc/dpkg/dpkg.cfg.d/unsafe-io
 
-    - name: Create biab user
-      user:
-        name: biab
-        group: users
-        shell: /bin/bash
-
     - name: Install dirmngr
       apt:
         name: dirmngr
@@ -44,5 +38,86 @@
         - net-tools
         - aptitude
         - screen
+        - curl
+
+    - name: Download parity
+      get_url:
+        url: https://releases.parity.io/v2.0.8/x86_64-unknown-linux-gnu/parity
+        dest: /usr/local/bin/parity
+        mode: "0755"
+
+    - name: Create /etc/parity
+      file: 
+        path: /etc/parity
+        state: directory
+        mode: "0755"
+
+    - name: Create /var/spool/parity
+      file: 
+        path: /var/spool/parity
+        state: directory
+        mode: "0755"
+
+    - name: Copy node.ini
+      template:
+        src: files/node.ini
+        dest: /etc/parity/node.ini
+
+    - name: Copy spec
+      template: 
+        src: files/spec.json
+        dest: /etc/parity/spec.json
+
+    - name: Copy systemd unit
+      template:
+        src: files/parity.service
+        dest: /lib/systemd/system/parity.service
+
+    - name: Enable and start parity service
+      systemd:
+        name: parity
+        daemon_reload: true
+        enabled: true
+        masked: false
+        state: restarted
+
+    - name: Create validator account
+      uri:
+        url: http://localhost:8545
+        method: POST
+        body: {"jsonrpc":"2.0","method":"parity_newAccountFromPhrase","params":["{{inventory_hostname}}", "{{account_pwd}}"],"id":0}
+        body_format: json
+      register: validator_account
+
+    - name: Create user account
+      uri:
+        url: http://localhost:8545
+        method: POST
+        body: {"jsonrpc":"2.0","method":"parity_newAccountFromPhrase","params":["{{account_phrase}}", "{{account_pwd}}"],"id":0}
+        body_format: json
+      register: user_account
+
+    - name: Try to fetch enode
+      uri:
+        url: http://localhost:8545
+        method: POST
+        body: {"jsonrpc":"2.0","method":"parity_enode","params":[],"id":0}
+        body_format: json
+      register: fetch_enode
+
+    - name: Show 
+      debug:
+        var: hostvars[inventory_hostname]
+        verbosity: 4
+
+
+#    - name: Show vars
+#      vars: 
+#        msg: "{{ vars | to_nice_json }}"
+
+#    - name: Create Account
+#      uri:
+#        url: http://localhost:8545
+
 
 # vim: ts=4 et nowrap autoindent

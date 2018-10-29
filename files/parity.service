@@ -1,0 +1,12 @@
+[Unit]
+Description=Parity Ethereum Daemon
+After=network.target
+
+[Service]
+ExecStart=/usr/local/bin/parity --config=/etc/parity/node.ini
+Restart=on-failure
+
+KillSignal=SIGHUP
+
+[Install]
+WantedBy=default.target
