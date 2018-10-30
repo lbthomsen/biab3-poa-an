@@ -20,6 +20,12 @@
                 },
                 {
                     "protocol": "tcp",
+                    "domain": "${jsonDomain}",
+                    "internal-port": "8545",
+                    "external-port": "${jsonPort}"
+                },
+                {
+                    "protocol": "tcp",
                     "domain": "${rpcDomain}",
                     "internal-port": "30303",
                     "external-port": "${rpcPort}"
@@ -118,12 +124,24 @@
         "numberOfNodes": {
             "description": "Enter the number of nodes",
             "type": "int",
-            "default": "2"
+            "default": "3"
         },
         "ethereumNetwork": {
             "description": "Enter the ethereum network id",
             "type": "int",
             "default": "2020"
+        }, 
+        "accountPhrase": {
+            "description": "String to generate account", 
+            "type": "string",
+            "default": "TestAccount",
+            "validation": "[a-zA-Z0-9]+"
+        }, 
+        "accountPwd": {
+            "description": "Password for accounts", 
+            "type": "string",
+            "default": "SuperSecret",
+            "validation": "[a-zA-Z0-9]+"
         }, 
         "ethereumDifficulty": {
             "description": "Enter the mining difficulty",
