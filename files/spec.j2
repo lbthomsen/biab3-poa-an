@@ -7,9 +7,9 @@
                 "validators" : {
                     "list": [
 {% for host in groups['an'] %}
-    {% if (hostvars[host].validator_account is defined) or (hostvars[host].validator_account.json is defined) or (hostvars[host].validator_account.json.result is defined) %}
-                        {{ hostvars[host].validator_account.json.result }}
-    {% endif %}
+{% if hostvars[host].validator_account is defined %}
+                        "{{ hostvars[host].validator_account.json.result }}"{% if not loop.last %},{% endif %}
+{% endif %}
 {% endfor %}
                     ]
                 }
@@ -38,10 +38,20 @@
         "difficulty": "0x20000",
         "gasLimit": "0x5B8D80"
     },
+    "nodes": [
+{% for host in groups['an'] %}
+{% if hostvars[host].fetch_enode is defined %}
+        "{{ hostvars[host].fetch_enode.json.result }}"{% if not loop.last %},{% endif %}
+{% endif %}
+{% endfor %}        
+    ], 
     "accounts": {
         "0x0000000000000000000000000000000000000001": { "balance": "1", "builtin": { "name": "ecrecover", "pricing": { "linear": { "base": 3000, "word": 0 } } } },
         "0x0000000000000000000000000000000000000002": { "balance": "1", "builtin": { "name": "sha256", "pricing": { "linear": { "base": 60, "word": 12 } } } },
         "0x0000000000000000000000000000000000000003": { "balance": "1", "builtin": { "name": "ripemd160", "pricing": { "linear": { "base": 600, "word": 120 } } } },
         "0x0000000000000000000000000000000000000004": { "balance": "1", "builtin": { "name": "identity", "pricing": { "linear": { "base": 15, "word": 3 } } } }
+        {% if user_account is defined %}
+        ,"{{ user_account.json.result }}": {"balance": "10000000000000000000000"}
+        {% endif %}
     }
 }

@@ -1,7 +1,7 @@
 {
     "name": "${environmentName}",
     "description": "Blockchain in a Box mk. III - authority node",
-    "version": "0.0.1",
+    "version": "0.0.3",
     "author": "https://github.com/lbthomsen",
     "ssh-key": "lth",
     "containers": [
@@ -17,6 +17,12 @@
                     "domain": "${domain}",
                     "internal-port": "80",
                     "external-port": "80"
+                },
+                {
+                    "protocol": "tcp",
+                    "domain": "${jsonDomain}",
+                    "internal-port": "8545",
+                    "external-port": "${jsonPort}"
                 },
                 {
                     "protocol": "tcp",
@@ -118,12 +124,24 @@
         "numberOfNodes": {
             "description": "Enter the number of nodes",
             "type": "int",
-            "default": "2"
+            "default": "3"
         },
         "ethereumNetwork": {
             "description": "Enter the ethereum network id",
             "type": "int",
             "default": "2020"
+        }, 
+        "accountPhrase": {
+            "description": "String to generate account", 
+            "type": "string",
+            "default": "TestAccount",
+            "validation": "[a-zA-Z0-9]+"
+        }, 
+        "accountPwd": {
+            "description": "Password for accounts", 
+            "type": "string",
+            "default": "SuperSecret",
+            "validation": "[a-zA-Z0-9]+"
         }, 
         "ethereumDifficulty": {
             "description": "Enter the mining difficulty",
