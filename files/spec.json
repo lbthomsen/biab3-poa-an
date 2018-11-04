@@ -7,7 +7,7 @@
                 "validators" : {
                     "list": [
 {% for host in groups['an'] %}
-    {% if hostvars[host].validator_account is defined && hostvars[host].validator_account.json is defined && hostvars[host].validator_account.json.result is defined %}
+    {% if (hostvars[host].validator_account is defined) or (hostvars[host].validator_account.json is defined) or (hostvars[host].validator_account.json.result is defined) %}
                         {{ hostvars[host].validator_account.json.result }}
     {% endif %}
 {% endfor %}
