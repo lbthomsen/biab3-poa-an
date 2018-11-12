@@ -131,9 +131,6 @@
         src: files/spec.j2
         dest: /etc/parity/spec.json
 
-    #- name: Display all variables/facts known for a host
-    #  debug:
-    #    var: hostvars[inventory_hostname]
     - name: Restart parity
       systemd:
         name: parity

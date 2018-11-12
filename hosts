@@ -1,7 +1,7 @@
 
-an0 ansible_port=10005 ansible_host=10.197.24.3
-an1 ansible_port=10003 ansible_host=10.197.24.2
-an2 ansible_port=10004 ansible_host=10.197.24.1
+an0 ansible_port=10005 ansible_host=10.24.31.3
+an1 ansible_port=10003 ansible_host=10.24.31.2
+an2 ansible_port=10004 ansible_host=10.24.31.1
 
 [an]
 an0
